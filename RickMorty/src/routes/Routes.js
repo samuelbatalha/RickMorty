@@ -1,13 +1,14 @@
 import React from 'react';
-import Character from './Character'
-import CharacterDetail from './CharacterDetail'
+import Character from '../screens/character/Character'
+import CharacterDetail from '../screens/characterdteail/CharacterDetail'
 import {createStackNavigator} from '@react-navigation/stack';
+import {NavigationContainer} from '@react-navigation/native'
 const Stack = createStackNavigator();
 
-
-class MainScreen extends React.Component{
+class Routes extends React.Component{
     render(){
         return(
+            <NavigationContainer>
             <Stack.Navigator
             screenOptions = {{
                 headerStyle:{
@@ -17,13 +18,15 @@ class MainScreen extends React.Component{
             }}
             >
             <Stack.Screen name='Character' 
-            component={Character}></Stack.Screen>
+            component={Character}/>
             <Stack.Screen name='CharacterDetail' 
-            component={CharacterDetail}></Stack.Screen>
+            component={CharacterDetail}/>
 
             </Stack.Navigator>
+
+            </NavigationContainer>
         );
     }
 }
 
-export default MainScreen;
+export default Routes;

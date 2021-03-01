@@ -1,6 +1,6 @@
 import React from 'react';
 import {View, ActivityIndicator, Text, FlatList, StyleSheet, Image} from 'react-native';
-import Http from '../libs/http';
+import Http from '../../libs/http';
 
 class CharacterDetail extends React.Component{
 

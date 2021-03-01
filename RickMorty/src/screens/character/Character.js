@@ -1,7 +1,9 @@
 import React from 'react';
 import {View, ActivityIndicator, Pressable, Text, StyleSheet, FlatList} from 'react-native';
-import Http from '../libs/http';
-import CharacterItem from './CharacterItem';
+import {styles} from './Character.style';
+import Http from '../../libs/http';
+import CharacterItem from '../../components/CharacterItem';
+import { GET_CHARACTER, NEXT_OR_PREVIUS } from '../../service/CharacterService';
 
 class Character extends React.Component{
     state ={
@@ -13,36 +15,50 @@ class Character extends React.Component{
 
     componentDidMount = async ()=>{
         this.setState({loading:true});
-        const res = await Http.instance.get('https://rickandmortyapi.com/api/character/');
-        this.setState({characters: res.results, loading:false});
-        if(res.info.next){
-            this.setState({next:res.info.next });
-        }
-        if(res.info.prev){
-            this.setState({prev:res.info.prev });    
-        }
+
+        GET_CHARACTER_LIST()
+        .then((response) => response.data)
+        .then((response) => {
+            this.setState({characters: response.results, loading:false});
+            if(response.info.next){
+                this.setState({next:response.info.next });
+            }
+            if(res.info.prev){
+                this.setState({prev:response.info.prev });    
+            }
+        })
+      .catch((err) => {
+        this.setState({ loading:false});
+        console.error("ops! ocorreu um erro" + err);
+     });
     }
     
     
     handleNextPress = async () =>{
-        const {next} = this.state;
+        const {next} = this.state;        
         this.setState({loading:true});
-        const res = await Http.instance.get(next);
-        console.log('Go to Next Page ');
-        this.setState({characters: res.results, loading:false});
-        if(res.info.next){
-            this.setState({next:res.info.next });
-        }
-        else{
-            this.setState({next:null})
-        }
-        if(res.info.prev){
-            this.setState({prev:res.info.prev });    
-        }else{
-            this.setState({prev:null})
-        }
-
-        //this.props.navigation.navigate('CoinDetail');
+        
+        NEXT_OR_PREVIUS(next)
+        .then((response) => response.data)
+        .then((response) => {
+            console.log('Go to Next Page ');
+            this.setState({characters: response.results, loading:false});
+            if(response.info.next){
+                this.setState({next:response.info.next });
+            }
+            else{
+                this.setState({next:null})
+            }
+            if(response.info.prev){
+                this.setState({prev:response.info.prev });    
+            }else{
+                this.setState({prev:null})
+            }
+        })
+      .catch((err) => {
+        this.setState({ loading:false});
+        console.error("ops! ocorreu um erro" + err);
+     });
     }
     handlePrevPress = async () =>{
         const {prev} = this.state;
@@ -73,6 +89,7 @@ class Character extends React.Component{
     render(){
         
         const {characters, loading, next, prev} = this.state;
+
         return(
             <View style={styles.container}>
                 {loading?
@@ -117,28 +134,5 @@ class Character extends React.Component{
         );
     }
 } 
-
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        backgroundColor: '#67dd23',
-
-    },
-    btn:{
-        padding: 0,
-        backgroundColor: '#034246',
-        height:30,
-        margin:1,   
-    },
-
-    btnText:{
-        color: '#53eae3',
-        textAlign: 'center',
-        fontSize: 20,
-    },
-    loader:{
-        marginTop:10,
-    },
-});
 
 export default Character;
