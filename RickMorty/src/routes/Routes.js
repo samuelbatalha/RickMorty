@@ -1,6 +1,6 @@
 import React from 'react';
 import Character from '../screens/character/Character'
-import CharacterDetail from '../screens/characterdteail/CharacterDetail'
+import CharacterDetail from '../screens/characterdetail/CharacterDetail'
 import {createStackNavigator} from '@react-navigation/stack';
 import {NavigationContainer} from '@react-navigation/native'
 const Stack = createStackNavigator();

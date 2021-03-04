@@ -2,8 +2,8 @@ import React from 'react';
 import {View, ActivityIndicator, Pressable, Text, StyleSheet, FlatList} from 'react-native';
 import {styles} from './Character.style';
 import Http from '../../libs/http';
-import CharacterItem from '../../components/CharacterItem';
-import { GET_CHARACTER, NEXT_OR_PREVIUS } from '../../service/CharacterService';
+import CharacterItem from '../characteritem/CharacterItem';
+import { GET_CHARACTER, NEXT_OR_PREVIUS, GET_CHARACTER_LIST } from '../../service/CharacterService';
 
 class Character extends React.Component{
     state ={
